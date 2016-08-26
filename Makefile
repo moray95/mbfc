@@ -1,5 +1,5 @@
 CXX     ?= gcc
-CFLAGS   = -std=c++14 -pedantic -Wextra -Wall -Isrc
+CXXFLAGS = -std=c++14 -pedantic -Wextra -Wall -I./src
 OPTFLAGS = -O3 -faggressive-loop-optimizations -mtune=native
 DBGFLAGS = -g3 -fno-inline
 EXEC     = mbfc
@@ -8,13 +8,13 @@ OBJS     = $(addsuffix .o, $(basename $(SRC)))
 
 $(EXEC): release
 
-release: $(CFLAGS) += $(OPTFLAGS)
+release: $(CXXFLAGS) += $(OPTFLAGS)
 release: $(OBJS)
-	$(CXX) $(OPTFLAGS) $^ -o $(EXEC)
+	$(CXX) $(CXXFLAGS) $^ -o $(EXEC)
 
-debug: $(CFLAGS) += $(DBGFLAGS)
+debug: $(CXXFLAGS) += $(DBGFLAGS)
 debug: $(OBJS)
-	$(CXX) $(OPTFLAGS) $^ -o $(EXEC)
+	$(CXX) $(CXXFLAGS) $^ -o $(EXEC)
 
 clean:
 	$(RM) $(OBJS) $(EXEC)
