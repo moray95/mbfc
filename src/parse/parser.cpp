@@ -28,7 +28,7 @@ auto Parser::parse(std::istream& stream) -> std::vector<instr_type>
 
 auto Parser::parse_instr(std::istream& stream) -> instr_type
 {
-  char c;
+  char c = '\0';
   stream >> c;
   switch (c)
   {
