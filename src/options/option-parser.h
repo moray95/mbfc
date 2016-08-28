@@ -1,4 +1,5 @@
 #pragma once
+#include "options.h"
 #include <iostream>
 #include <map>
 #include <mbfc-exception.h>
@@ -9,10 +10,6 @@
 
 namespace options
 {
-  const std::map<std::string, std::string> options{
-      {"-h, --help", "Displays this help."},
-      {"-o FILE", "Sets the file to compile. If absent, reads from stdin."},
-      {"-i", "Interprets the code instead of compiling."}};
   class ParseException : public exception::MBFCException
   {
   public:
@@ -20,14 +17,6 @@ namespace options
     {
     }
     virtual ~ParseException() = default;
-  };
-
-  struct Options
-  {
-    bool help = false;
-    bool interpret = false;
-    std::shared_ptr<std::ostream> out = nullptr;
-    std::shared_ptr<std::istream> in = nullptr;
   };
 
   class OptionParser

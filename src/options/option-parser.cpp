@@ -10,8 +10,8 @@ namespace
   bool parse_file(const std::vector<std::string>& args, size_t& index,
                   options::Options& options)
   {
-    options.in = std::static_pointer_cast<std::istream>(
-        std::make_shared<std::ifstream>(args[index]));
+    options.set_in(std::static_pointer_cast<std::istream>(
+        std::make_shared<std::ifstream>(args[index])));
     return true;
   }
 
@@ -27,8 +27,8 @@ namespace
       throw options::ParseException("-o option requires a filename");
     }
     index++;
-    options.out = std::static_pointer_cast<std::ostream>(
-        std::make_shared<std::ofstream>(args[index]));
+    options.set_out(std::static_pointer_cast<std::ostream>(
+        std::make_shared<std::ofstream>(args[index])));
     return true;
   }
 
@@ -37,7 +37,7 @@ namespace
   {
     if (args[index] == "--help" || args[index] == "-h")
     {
-      options.help = true;
+      options.help() = true;
       return true;
     }
     return false;
@@ -48,7 +48,7 @@ namespace
   {
     if (args[index] == "-i" || args[index] == "--interpret")
     {
-      options.interpret = true;
+      options.interpret() = true;
       return true;
     }
     return false;

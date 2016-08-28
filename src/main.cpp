@@ -4,6 +4,7 @@
 #include <parse/parser.h>
 #include <visitor/interpreter.h>
 #include <visitor/visitor.h>
+#include <options/options.h>
 
 namespace
 {
@@ -23,29 +24,19 @@ int main(int argc, char** argv)
 {
   options::OptionParser option_parser(argc, argv);
   options::Options options = option_parser.parse_options();
-  if (options.help)
+  if (options.help())
   {
     help(argv[0]);
     return 0;
   }
-  if (!options.interpret)
+  if (!options.interpret())
   {
     std::cerr << "Compiler not implemented yet, use -i to interpret"
               << std::endl;
     return 1;
   }
-  std::istream& in = [&]() -> std::istream& {
-    if (options.in != nullptr)
-    {
-      return *options.in;
-    }
-    else
-    {
-      return std::cin;
-    }
-  }();
   parse::Parser parser;
-  auto instrs = parser.parse(in);
+  auto instrs = parser.parse(options.in());
   visitor::Interpreter interpreter;
   interpreter.visit(instrs);
   return 0;
