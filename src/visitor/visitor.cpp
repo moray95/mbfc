@@ -18,6 +18,11 @@ void Visitor::visit(std::vector<std::shared_ptr<instruction::Instruction>>& inst
   }
 }
 
+void Visitor::visit(instruction::Instruction& instruction)
+{
+  instruction.accept(*this);
+}
+
 void Visitor::visit(instruction::DecByteInstruction&)
 {
 }

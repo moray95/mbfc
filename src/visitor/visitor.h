@@ -1,6 +1,6 @@
 #pragma once
-#include <vector>
 #include <memory>
+#include <vector>
 
 namespace instruction
 {
@@ -19,7 +19,9 @@ namespace visitor
   class Visitor
   {
   public:
-    virtual void visit(std::vector<std::shared_ptr<instruction::Instruction>>& instructions);
+    virtual void
+    visit(std::vector<std::shared_ptr<instruction::Instruction>>& instructions);
+    virtual void visit(instruction::Instruction& instruction);
     virtual void visit(instruction::DecByteInstruction& instruction);
     virtual void visit(instruction::DecPtrInstruction& instruction);
     virtual void visit(instruction::InByteInstruction& instruction);
