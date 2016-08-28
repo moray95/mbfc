@@ -1,10 +1,11 @@
 #include <fstream>
 #include <iostream>
 #include <options/option-parser.h>
+#include <options/options.h>
 #include <parse/parser.h>
+#include <visitor/compiler.h>
 #include <visitor/interpreter.h>
 #include <visitor/visitor.h>
-#include <options/options.h>
 
 namespace
 {
@@ -29,15 +30,18 @@ int main(int argc, char** argv)
     help(argv[0]);
     return 0;
   }
-  if (!options.interpret())
-  {
-    std::cerr << "Compiler not implemented yet, use -i to interpret"
-              << std::endl;
-    return 1;
-  }
   parse::Parser parser;
   auto instrs = parser.parse(options.in());
-  visitor::Interpreter interpreter;
-  interpreter.visit(instrs);
+  if (options.interpret())
+  {
+
+    visitor::Interpreter interpreter;
+    interpreter.visit(instrs);
+  }
+  else
+  {
+    visitor::Compiler compiler(options.out());
+    compiler.compile(instrs);
+  }
   return 0;
 }
