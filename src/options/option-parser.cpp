@@ -42,6 +42,17 @@ namespace
     }
     return false;
   }
+
+  bool parse_interpret(const std::vector<std::string>& args, size_t& index,
+                       options::Options& options)
+  {
+    if (args[index] == "-i" || args[index] == "--interpret")
+    {
+      options.interpret = true;
+      return true;
+    }
+    return false;
+  }
 }
 
 OptionParser::OptionParser(int argc, const char* const* argv)
@@ -56,7 +67,8 @@ options::Options OptionParser::parse_options()
 {
   using parser_type = std::function<bool(const std::vector<std::string>&,
                                          size_t&, options::Options&)>;
-  std::array<parser_type, 3> parsers{parse_out, parse_help, parse_file};
+  std::array<parser_type, 4> parsers{parse_out, parse_help, parse_interpret,
+                                     parse_file};
   options::Options options;
   for (size_t i = 0; i < args_.size(); i++)
   {
