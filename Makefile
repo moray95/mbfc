@@ -8,7 +8,7 @@ SRC      = $(shell find src | grep '.cpp')
 OBJS     = $(addsuffix .o, $(basename $(SRC)))
 
 
-#$(EXEC): release
+$(EXEC): release
 
 release: CXXFLAGS += $(OPTFLAGS)
 release: $(OBJS)
