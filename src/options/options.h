@@ -7,7 +7,7 @@ namespace options
 {
   const std::map<std::string, std::string> options{
       {"-h, --help", "Displays this help."},
-      {"-o FILE", "Sets the file to compile. If absent, reads from stdin."},
+      {"-o FILE", "Sets the file to compile into. If absent, writes to stdout."},
       {"-i", "Interprets the code instead of compiling."}};
 
   class Options
