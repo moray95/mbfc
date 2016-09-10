@@ -6,6 +6,7 @@
 #include <visitor/compiler.h>
 #include <visitor/interpreter.h>
 #include <visitor/visitor.h>
+#include "mbfc-exception.h"
 
 namespace
 {
@@ -21,7 +22,7 @@ namespace
   }
 }
 
-int main(int argc, char** argv)
+int run(int argc, char** argv)
 {
   options::OptionParser option_parser(argc, argv);
   options::Options options = option_parser.parse_options();
@@ -44,4 +45,17 @@ int main(int argc, char** argv)
     compiler.compile(instrs);
   }
   return 0;
+}
+
+int main(int argc, char** argv)
+{
+  try
+  {
+    return run(argc, argv);
+  }
+  catch (const exception::MBFCException& e)
+  {
+    std::cerr << e.what() << std::endl;
+    return 1;
+  }
 }
