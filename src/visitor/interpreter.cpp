@@ -15,18 +15,18 @@ Interpreter::Interpreter() : data_(100000, 0)
 {
 }
 
-void Interpreter::visit(instruction::DecByteInstruction&)
+void Interpreter::visit(instruction::DecByteInstruction& instr)
 {
-  data_[index_]--;
+  data_[index_] -= instr.get_count();
 }
 
-void Interpreter::visit(instruction::DecPtrInstruction&)
+void Interpreter::visit(instruction::DecPtrInstruction& instr)
 {
-  if (index_ == 0)
+  if (index_ < instr.get_count())
   {
     throw InterpreterException("Pointer underflow");
   }
-  index_--;
+  index_ -= instr.get_count();
 }
 
 void Interpreter::visit(instruction::InByteInstruction&)
@@ -34,17 +34,17 @@ void Interpreter::visit(instruction::InByteInstruction&)
   std::cin >> data_[index_];
 }
 
-void Interpreter::visit(instruction::IncByteInstruction&)
+void Interpreter::visit(instruction::IncByteInstruction& instr)
 {
-  data_[index_]++;
+  data_[index_] += instr.get_count();
 }
 
-void Interpreter::visit(instruction::IncPtrInstruction&)
+void Interpreter::visit(instruction::IncPtrInstruction& instr)
 {
-  index_++;
-  if (index_ == data_.size())
+  index_ += instr.get_count();
+  if (index_ >= data_.size())
   {
-    data_.emplace_back();
+    data_.resize(index_ + 1);
   }
 }
 
