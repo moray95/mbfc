@@ -50,7 +50,7 @@ void ctx_free(struct context *ctx)
   free(ctx->data);
 }
 
-void ctx_inc_ptr(struct context *ctx)
+void ctx_inc_ptr(struct context *ctx, size_t count)
 {
   size_t ptr_offset = ctx->ptr - ctx->data;
   if (ctx->ptr == ctx->data + ctx->size - 1)
@@ -59,27 +59,27 @@ void ctx_inc_ptr(struct context *ctx)
     memset(ctx->data + ctx->size, 0, ctx->size);
     ctx->size *= 2;
   }
-  ctx->ptr = ctx->data + ptr_offset + 1;
+  ctx->ptr = ctx->data + ptr_offset + count;
 }
 
-void ctx_dec_ptr(struct context *ctx)
+void ctx_dec_ptr(struct context *ctx, size_t count)
 {
-  if (ctx->data == ctx->ptr)
+  if (ctx->data > ctx->ptr - count)
   {
-    fprintf(stderr, "Pointer underflow");
+    fprintf(stderr, "Pointer underflow\n");
     abort();
   }
-  ctx->ptr--;
+  ctx->ptr -= count;
 }
 
-void ctx_inc_byte(struct context *ctx)
+void ctx_inc_byte(struct context *ctx, size_t count)
 {
-  (*(ctx->ptr))++;
+  *(ctx->ptr) += count;
 }
 
-void ctx_dec_byte(struct context *ctx)
+void ctx_dec_byte(struct context *ctx, size_t count)
 {
-  (*(ctx->ptr))--;
+  *(ctx->ptr) -= count;
 }
 
 void ctx_in_byte(struct context *ctx)

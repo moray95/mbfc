@@ -36,14 +36,14 @@ void Compiler::compile(
           "}\n";
 }
 
-void Compiler::visit(instruction::DecByteInstruction&)
+void Compiler::visit(instruction::DecByteInstruction& instr)
 {
-  out_ << "ctx_dec_byte(&ctx);\n";
+  out_ << "ctx_dec_byte(&ctx, " << instr.get_count() << ");\n";
 }
 
-void Compiler::visit(instruction::DecPtrInstruction&)
+void Compiler::visit(instruction::DecPtrInstruction& instr)
 {
-  out_ << "ctx_dec_ptr(&ctx);\n";
+  out_ << "ctx_dec_ptr(&ctx, " << instr.get_count() << ");\n";
 }
 
 void Compiler::visit(instruction::InByteInstruction&)
@@ -51,14 +51,14 @@ void Compiler::visit(instruction::InByteInstruction&)
   out_ << "ctx_in_byte(&ctx);\n";
 }
 
-void Compiler::visit(instruction::IncByteInstruction&)
+void Compiler::visit(instruction::IncByteInstruction& instr)
 {
-  out_ << "ctx_inc_byte(&ctx);\n";
+  out_ << "ctx_inc_byte(&ctx, " << instr.get_count() << ");\n";
 }
 
-void Compiler::visit(instruction::IncPtrInstruction&)
+void Compiler::visit(instruction::IncPtrInstruction& instr)
 {
-  out_ << "ctx_inc_ptr(&ctx);\n";
+  out_ << "ctx_inc_ptr(&ctx, " << instr.get_count() << ");\n";
 }
 
 void Compiler::visit(instruction::LoopInstruction& instruction)
