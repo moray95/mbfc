@@ -33,17 +33,13 @@ auto Parser::parse_instr(std::istream& stream) -> instr_type
   switch (c)
   {
     case '>':
-      return std::static_pointer_cast<instruction::Instruction>(
-          std::make_shared<instruction::IncPtrInstruction>());
+      return stack_instructions<instruction::IncPtrInstruction>('>', stream);
     case '<':
-      return std::static_pointer_cast<instruction::Instruction>(
-          std::make_shared<instruction::DecPtrInstruction>());
+      return stack_instructions<instruction::DecPtrInstruction>('<', stream);
     case '+':
-      return std::static_pointer_cast<instruction::Instruction>(
-          std::make_shared<instruction::IncByteInstruction>());
+      return stack_instructions<instruction::IncByteInstruction>('+', stream);
     case '-':
-      return std::static_pointer_cast<instruction::Instruction>(
-          std::make_shared<instruction::DecByteInstruction>());
+      return stack_instructions<instruction::DecByteInstruction>('+', stream);
     case '.':
       return std::static_pointer_cast<instruction::Instruction>(
           std::make_shared<instruction::OutByteInstruction>());
@@ -69,4 +65,18 @@ auto Parser::parse_instr(std::istream& stream) -> instr_type
     default:
       return nullptr;
   }
+}
+
+template <typename T>
+auto Parser::stack_instructions(char instr_char, std::istream& stream)
+    -> instr_type
+{
+  std::shared_ptr<T> instruction = std::make_shared<T>();
+  instruction->increment_count();
+  while (!stream.eof() && stream.peek() == instr_char)
+  {
+    stream.get();
+    instruction->increment_count();
+  }
+  return std::static_pointer_cast<instruction::Instruction>(instruction);
 }

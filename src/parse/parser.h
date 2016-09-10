@@ -14,5 +14,7 @@ namespace parse
 
   private:
     instr_type parse_instr(std::istream& stream);
+    template <typename T>
+    instr_type stack_instructions(char instr_char, std::istream& stream);
   };
 }
